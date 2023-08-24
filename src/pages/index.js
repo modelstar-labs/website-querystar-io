@@ -6,28 +6,26 @@ import Layout from "@theme/Layout";
 import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import HomepageSectionStack from "@site/src/components/HomepageSectionStack";
 
-import styles from "./index.module.css";
-
 function HomepageHeader() {
     const { siteConfig } = useDocusaurusContext();
     return (
-        <header className={clsx("hero", styles.heroBanner)}>
+        <header className={clsx("hero", "text-center px-2 text-gray-800")}>
             <div className="container">
-                <h1 className={clsx("", styles.heroTitle)}>
-                    AI-Assisted Metrics Store and Analysis Automation
+                <h1 className={clsx("", "text-center")}>
+                    Workflow Automated in a Few Lines of Python
                 </h1>
-                <p className={clsx("", styles.heroTagline)}>
-                    Tired of working on inconsistent KPIs and mundane SQL
-                    queries?
+                <p
+                    className={clsx(
+                        "",
+                        "text-center text-black text-2xl font-medium max-w-3/4 mx-auto"
+                    )}
+                >
+                    Build Event-Trigger Based Automation Across Your SaaS Tools
                 </p>
-                <p className={clsx("", styles.heroTagline)}>
-                    Start leveraging AI to make data analysis simple and
-                    reliable.
-                </p>
-                {/* <div className="margin-top--lg">YouTube video</div> */}
-                <div className="margin-top--lg">
+                <HomepageSectionStack />
+                <div className="mt-14">
                     <a
-                        class="button button--primary"
+                        class="button bg-yellow-700 hover:bg-yellow-600 text-white"
                         href="https://calendly.com/querystar/30min"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -45,12 +43,15 @@ export default function Home() {
     return (
         <Layout
             title={`${siteConfig.title}`}
-            description="AI-Assisted metrics store and analysis automation"
+            description="Workflow Automated in a Few Lines of Python"
         >
             <HomepageHeader />
-            <main>
-                <HomepageSectionStack />
-                <HomepageFeatures />
+            <main className="container text-center">
+                <h3>Join our private preview</h3>
+                <h3 className="text-gray-800">
+                    Contact us at{" "}
+                    <a className="text-yellow-800" href="mailto:h@querystar.io">h@querystar.io</a>
+                </h3>
             </main>
         </Layout>
     );

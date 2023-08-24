@@ -47,6 +47,21 @@ const config = {
         ],
     ],
 
+    plugins: [
+        // Plugin for TailwindCSS
+        async function TailwindCSSPlugin(context, options) {
+            return {
+                name: "docusaurus-tailwindcss",
+                configurePostCss(postcssOptions) {
+                    // Appends TailwindCSS and AutoPrefixer.
+                    postcssOptions.plugins.push(require("tailwindcss"));
+                    postcssOptions.plugins.push(require("autoprefixer"));
+                    return postcssOptions;
+                },
+            };
+        },
+    ],
+
     themeConfig:
         /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
         ({
@@ -59,26 +74,26 @@ const config = {
             image: "img/docusaurus-social-card.jpg",
             navbar: {
                 title: "QueryStar",
-                // logo: {
-                //     alt: "My Site Logo",
-                //     src: "img/logo.svg",
-                // },
-                items: [
-                    {
-                        to: "https://app.querystar.io",
-                        label: "Sign in",
-                        position: "right",
-                        className:
-                            "button button--primary button--outline button--md margin-horiz--sm",
-                    },
-                    {
-                        to: "https://app.fillout.com/t/4Nh5FWvFf7us",
-                        label: "Sign up to waitlist",
-                        position: "right",
-                        className:
-                            "button button--primary button--md margin-horiz--sm",
-                    },
-                ],
+                logo: {
+                    alt: "QueryStar Logo",
+                    src: "logo.png",
+                },
+                // items: [
+                //     {
+                //         to: "https://app.querystar.io",
+                //         label: "Sign in",
+                //         position: "right",
+                //         className:
+                //             "button button--primary button--outline button--md margin-horiz--sm",
+                //     },
+                //     {
+                //         to: "https://app.fillout.com/t/4Nh5FWvFf7us",
+                //         label: "Sign up to waitlist",
+                //         position: "right",
+                //         className:
+                //             "button button--primary button--md margin-horiz--sm",
+                //     },
+                // ],
             },
             footer: {
                 style: "dark",
