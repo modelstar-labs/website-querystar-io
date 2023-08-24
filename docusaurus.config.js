@@ -6,10 +6,9 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-    title: "AI-Assisted Metrics Store and Analysis Automation",
-    tagline:
-        "Tired of working on inconsistent KPIs and mundane SQL queries? Start leveraging AI to make data analysis simple and reliable.",
-    // favicon: "img/favicon.ico",
+    title: "Workflow Automation in a Few Lines of Python",
+    tagline: "Build Event-Trigger Based Automation Across Your SaaS Tools.",
+    favicon: "img/favicon.ico",
 
     // Set the production url of your site here
     url: "https://querystar.io",

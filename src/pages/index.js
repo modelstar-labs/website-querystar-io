@@ -12,7 +12,7 @@ function HomepageHeader() {
         <header className={clsx("hero", "text-center px-2 text-gray-800")}>
             <div className="container">
                 <h1 className={clsx("", "text-center")}>
-                    Workflow Automated in a Few Lines of Python
+                    Workflow Automation in a Few Lines of Python
                 </h1>
                 <p
                     className={clsx(
@@ -50,7 +50,9 @@ export default function Home() {
                 <h3>Join our private preview</h3>
                 <h3 className="text-gray-800">
                     Contact us at{" "}
-                    <a className="text-yellow-800" href="mailto:h@querystar.io">h@querystar.io</a>
+                    <a className="text-yellow-800" href="mailto:h@querystar.io">
+                        h@querystar.io
+                    </a>
                 </h3>
             </main>
         </Layout>
