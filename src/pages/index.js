@@ -43,7 +43,7 @@ export default function Home() {
     return (
         <Layout
             title={`${siteConfig.title}`}
-            description="Workflow Automated in a Few Lines of Python"
+            description="Workflow Automation in a Few Lines of Python"
         >
             <HomepageHeader />
             <main className="container text-center">
