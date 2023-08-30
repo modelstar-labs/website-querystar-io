@@ -1,40 +1,96 @@
 ---
-title: Modelstar introduction
-description: What is Modelstar?
+title: QueryStar Introduction
+description: What is QueryStar?
 # image: a thumbnail image to be shown in social media cards
-keywords: [data, warehouse, machine, learning, sql, python]
+keywords: [workflow automation, LLM, AI, generative AI, low code, python]
 ---
 
 # Introduction
 
-ModelStar is the easiest way to ship and manage machine learning solutions inside Snowflake, with only a few lines of SQL.
+QueryStar is the easiest way for data and Python developers to ship AI-powered bots.
 
-## Modelstar works with the modern data stack
+## Who is QueryStar built for
+- Data teams, Python developers, and petty much everyone who can write basic Python 🐍.
 
-![How does Modelstar work?](./how-modelstar-works.png)
+- If you happen to use [Streamlit](https://github.com/streamlit/streamlit), [PyWebIO](https://github.com/pywebio/PyWebIO) , [Gradio](https://github.com/gradio-app/gradio), [Greppo](https://github.com/greppo-io/greppo): **QueryStar is like them, but to build bots, instead of web UI**.
+    > 😋 *We're actually the creators behind `PyWebIO` and `Greppo`*
 
-Modelstar helps you ship and manage ML solutions in your data warehouse, with only a few lines of SQL. It currently support Snowflake. It works seemlessly within the modern data stack combining the powers of Snowflake and DBT.
+- If you happen to know some workflow automation web tools like `Zapier`, `Pipedream`, `Workato`, the big differentiator is: **QueryStar allows you to build entire workflows as a single Python file**. Benefits:
+  - No more clicking buttons and connecting blocks on web canvas. 
+  - Easy integration with internal codebase, algorithms, and libraries.
+  - No need to abandon your favorite Dev tools.
 
-## Who are Modelstar built for?
+  > 😈 *We believe visual editors can diminish developer's creativity*
 
--   Snowflake and DBT users.
--   Anyone who knows basic SQL.
--   Analyst, data engineers.
+## What is QueryStar
+Querystar contains 2 parts:
+- A low code open source Python SDK to help you:
+    - Transform your LLM functions to production-ready bots
+    - Pre-built AI modules to support various use cases, such as QA services.
+- A cloud workspace that help you:
+    - Deploy bots
+    - Manage their authorization and authentication
+    - Monitor performance. 
 
-## Why we build Modelstar?
 
-We've shipped 20+ ML solutions. All the projects started with:
 
--   Jupyter Notebook
--   CSV files containing training data
--   `import pandas as pd`
+## Main Features
 
-This "notebook-centric ML development flow" requires multi-disciplinary expertise in statistics, Python scripting, ML infra, and software engineering.
+### QueryStar Python SDK
 
-But, is it necessary? If not, how to make it ridiculously simple? Modelstar is our attempt to simplify ML for analysts. Our design philosophy is: **Data is the most critical component in ML, so shipping ML solutions should be as easy as creating data objects.**
+A common usage pattern:
+Two function calls to ship Python scripts as a bot, at scale.
 
-:::info
-We're interested in what you think about ML and data, drop us a line at dev@modelstar.io
+```python
+# bot.py: Demonstrating a common usage pattern
+
+import querystar as qs
+import langchain, llama_index, pandas  # or your favorite libraries
+
+# Every time a new message is sent to Slack,
+message = qs.triggers.slack.new_message(channel_id, trigger_string)
+
+# Bot is triggered to processes the following script
+response = ...
+
+# then, sends answer back to Slack
+qs.actions.slack.add_message(channel_id, message=response)
+```
+
+🤩 That's it! Clean code scales your bots and creativity.
+
+:::tip
+QueryStar takes care all other energy-draining BS for you.
+- Secret and scope management is made easy. No more config files sent to different places.
+- No need to worry about rate limit, time out, async call etc.
+- Learn unified QueryStar APIs then automate many SaaS tools.
 :::
+
+### QueryStar Workspaces (Cloud)
+<img src={require("./add-integration.png").default} style={{width: 500}} />
+
+In the Workspace, you can:
+- Adding integration to Slack
+- Generating QueryStar token: one token for all integrated SaaS tools
+- More coming soon:
+    - Deploying
+    - Managing
+    - Monitoring
+
+
+## How to get started
+
+Follow `Quickstart` to make your first Slack bot within just a few (~10) minutes.
+- The first 2 sections normally take 2 and 1 min respectively. 
+- Then, coding begins. We will be developing a bot that 
+  - Triggered by new messages sent to channel `#introduction`.
+  - Send a message back to the channel to say `Hello`.
+
+More advanced tutorials can be found in `Tutorials`.
+
+---
+
+What are some tedious tasks you hope a bot can help you with? Drop us a line at h@querystar.io and we will be in touch.
+
 
 <!-- TODO: Roadmap -->
