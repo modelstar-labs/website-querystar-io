@@ -37,7 +37,10 @@ const config = {
             "classic",
             /** @type {import('@docusaurus/preset-classic').Options} */
             ({
-                docs: false,
+                docs: {
+                    sidebarPath: require.resolve("./sidebars.js"),
+                    showLastUpdateTime: true,
+                },
                 blog: false,
                 theme: {
                     customCss: require.resolve("./src/css/custom.css"),
@@ -77,22 +80,35 @@ const config = {
                     alt: "QueryStar Logo",
                     src: "logo.png",
                 },
-                // items: [
-                //     {
-                //         to: "https://app.querystar.io",
-                //         label: "Sign in",
-                //         position: "right",
-                //         className:
-                //             "button button--primary button--outline button--md margin-horiz--sm",
-                //     },
-                //     {
-                //         to: "https://app.fillout.com/t/4Nh5FWvFf7us",
-                //         label: "Sign up to waitlist",
-                //         position: "right",
-                //         className:
-                //             "button button--primary button--md margin-horiz--sm",
-                //     },
-                // ],
+                items: [
+                    {
+                        type: "docSidebar",
+                        sidebarId: "docs",
+                        position: "right",
+                        label: "Documentation",
+                    },
+                    {
+                        href: "https://github.com/modelstar-labs/querystar",
+                        label: "GitHub",
+                        position: "right",
+                        className: "header-github-link",
+                        "aria-label": "GitHub repository",
+                    },
+                    // {
+                    //     to: "https://app.querystar.io",
+                    //     label: "Sign in",
+                    //     position: "right",
+                    //     className:
+                    //         "button button--primary button--outline button--md margin-horiz--sm",
+                    // },
+                    // {
+                    //     to: "https://app.fillout.com/t/4Nh5FWvFf7us",
+                    //     label: "Sign up to waitlist",
+                    //     position: "right",
+                    //     className:
+                    //         "button button--primary button--md margin-horiz--sm",
+                    // },
+                ],
             },
             footer: {
                 style: "dark",
