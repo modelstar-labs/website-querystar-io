@@ -31,6 +31,26 @@ const sidebars = {
         },
         {
             type: "category",
+            label: "Tutorials",
+            link: {
+                type: "generated-index",
+                title: "Deploy a Bot to Where You Work",
+                description:
+                    "Let's learn how to make bots that understand your own data and workflows. Your creativity is the only magic here.",
+            },
+            collapsed: false,
+            items: [{
+                type: "category",
+                label: "LLM Bot",
+                collapsed: true,
+                items: [
+                    "tutorials/llamaindex-doc-bot/index",
+                ],
+            },
+            ],
+        },
+        {
+            type: "category",
             label: "API Reference",
             // link: {
             //     type: "doc",

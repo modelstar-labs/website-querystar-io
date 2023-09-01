@@ -7,7 +7,9 @@ keywords: [workflow automation, LLM, AI, generative AI, low code, python]
 
 # Introduction
 
-QueryStar is the easiest way for data and Python developers to ship AI-powered bots.
+QueryStar is the easiest way for data and Python developers to ship AI-powered bots. It provides an easy way to set up trigger and actions, so you can focus on the most value-added part: **Do Something with Your Own Data**.
+
+<img src={require("./diagram.png").default} style={{width: 700}} />
 
 ## Who is QueryStar built for
 - Data teams, Python developers, and petty much everyone who can write basic Python 🐍.
@@ -22,12 +24,12 @@ QueryStar is the easiest way for data and Python developers to ship AI-powered b
 
   > 😈 *We believe visual editors can diminish developer's creativity*
 
-## What is QueryStar
-Querystar contains 2 parts:
+## QueryStar under the hood
+There are 2 parts:
 - A low code open source Python SDK to help you:
     - Transform your LLM functions to production-ready bots
     - Pre-built AI modules to support various use cases, such as QA services.
-- A cloud workspace that help you:
+- A cloud service that help you:
     - Deploy bots
     - Manage their authorization and authentication
     - Monitor performance. 

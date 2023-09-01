@@ -222,6 +222,40 @@ Example data structure:
 Refer to [this doc from Slack](https://api.slack.com/methods/users.info#errors).
 
 
+### `actions.slack.find_permalink()`
+
+#### Description
+Return a permalink URL of a message based on `channel id` and `timestamp`
+
+#### Parameters
+- `channel_id`: query string.
+  - Required.
+
+- `message_ts`: timestamp string.
+  - Required.
+
+#### Return
+Example data structure:
+
+<details><summary>Expand</summary>
+<p>
+
+```json
+{
+    "ok": true,
+    "channel": "C123ABC456",
+    "permalink": "https://ghostbusters.slack.com/archives/C1H9RESGA/p135854651500008"
+}
+
+```
+
+</p>
+</details>
+
+#### Errors and Warnings
+Refer to [this doc from Slack](https://api.slack.com/methods/chat.getPermalink#errors).
+
+
 <!-- Template
 
 ### `querystar.actions.slack.`
