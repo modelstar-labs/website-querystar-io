@@ -87,6 +87,13 @@ const config = {
                         position: "right",
                         label: "Documentation",
                     },
+                    {
+                        href: "https://github.com/modelstar-labs/querystar",
+                        label: "GitHub",
+                        position: "right",
+                        className: "header-github-link",
+                        "aria-label": "GitHub repository",
+                    },
                     // {
                     //     to: "https://app.querystar.io",
                     //     label: "Sign in",
