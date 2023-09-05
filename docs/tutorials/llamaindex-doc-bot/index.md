@@ -312,6 +312,7 @@ Go to Slack and post a trigger message. It works 🤩🤩🤩
 ---
 
 >*Acknowledgement:*
+>*Thanks to [Yi Ding (Head of Typescript and DevRel @LlamaIndex)](https://www.linkedin.com/in/dingy/) for proofreading!*
 >*This tutorial is inspired by [Build a chatbot with custom data sources, powered by LlamaIndex](https://blog.streamlit.io/build-a-chatbot-with-custom-data-sources-powered-by-llamaindex/) by `Streamlit` and `LlamaIndex` teams.*
 
 
