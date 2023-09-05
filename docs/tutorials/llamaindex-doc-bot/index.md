@@ -1,90 +1,113 @@
 # 🌟 + LlamaIndex: Slack Bot that Understands Your Data (Draft)
 
-<img src={require("./title.png").default} style={{width: 700}} />
+<img src={require("./title.png").default} style={{width: 700, display: 'block', margin: '0 auto'}} />
 
 
 ## Objective
 #### Learn how to build a Slack bot that can answer questions about your own documents.
-<img src={require("./code.png").default} style={{width: 500}} />
+<img src={require("./code.png").default} style={{width: 500, display: 'block', margin: '0 auto'}} />
 
 **Usefulness:** ⭐⭐⭐⭐⭐ |  **Difficult Level:** ⭐⭐
 :::note
-Source code of this tutorial: https://github.com/modelstar-labs/querystar-demo/tree/main/ask_llamaindex_slack_bot 
+Source code: https://github.com/modelstar-labs/querystar-demo/tree/main/ask_llamaindex_slack_bot 
 :::
 
 
 ## About the Slack Bot 
 
+This bot helps Slack users to learn a new open source project, called `LlamaIndex`. It "learns" from the project documentation and can "answer" questions about it.
+
 ### Use Case Example
 When a user posts a message (starting with "ask llama") to `#ask-llama` channel in a Slack workspace:
 > "ask llama: can llama-index ...?"
 
-The bot sends an answer back to the channel:
+The bot sends a legit answer back to the channel:
 > Llama says: ...
 
 
-### Feature Design
-- **AI (LLM) function**: After getting a question, the bot should generate an answer that aligns with the context provided in the given documents.
+### Module Design
+- **AI (LLM) Function**: After getting a question, this function should generate an answer that aligns with the context provided in the given documents.
 - **Trigger - Action**: 
     - The bot should respond to messages that:
         - are sent to a designated channel, AND
         - contain trigger word "ask llama".
-    - The bot should extract user question from the trigger message, call the LLM function to generate an answer.
-    - Last but not least, the bot should post the answer to the channel. Then, wait for next trigger events.
+    - The bot should extract user question from the trigger message, and run the LLM function to generate an answer.
+    - The bot should post the answer back to the channel. Then, wait for future trigger events.
 
 
 ## Tech Stack
 
-When choosing tech stack, we want to maximize speed of learning and shipping, meanwhile, leave enough room for customization. Here, we choose the `LOQ` stack (`LlamaIndex` + `OpenAI` + `Querystar`), which allows us to make a fully featured bot in less than an hour.
+We want to maximize speed of learning and shipping, meanwhile, leave enough room for customization. Here, we choose the `LOQ` stack (`LlamaIndex` + `OpenAI` + `Querystar`). This allows us to make a fully functioning bot in < 1 hour. Let's introduce the stack by module.
 
-### AI function
-<img src={require("./rag.jpg").default} style={{width: 500}} />
+### `LlamaIndex` for the LLM Function
 
-Key capability of the function is to process documents and retrieve useful context. We will implement a technique called `Retrieval Augmented Generation` (`RAG`). The basic concepts are explained in [Section 1: Some Basics](#section-1-some-basics). 
+Key capability of the function is to process documents and retrieve relevant context. We will implement this function using `Retrieval Augmented Generation` (`RAG`). The basic concepts of `RAG` are explained in [Section 1: Some Basics](#rag-basics). 
 
-`LlamaIndex` combined with `OpenAI`'s LLMs can give us great results with the least amount of code. We will show you how to do it in [Section 2: Data Indexing](#section-2-data-cleaning-and-indexing).
+`LlamaIndex` and `OpenAI`'s LLMs give us great results with the least amount of code. Details are in [Section 2: Data Indexing](#rag-function).
 
 :::note
-Spoiler Alert ... this notebook shows how this is done: 
-https://github.com/modelstar-labs/querystar-demo/blob/main/ask_llamaindex_slack_bot/cleaning_and_indexing.ipynb
+If you want to skip Section 1 and 2: [this Jupyter notebook](https://github.com/modelstar-labs/querystar-demo/blob/main/ask_llamaindex_slack_bot/cleaning_and_indexing.ipynb) shows how the AI function is implemented.
 :::
 
 
-### Trigger - Action
-<img src={require("./bot.jpg").default} style={{width: 500}} />
+### `QueryStar` for the Bot
 
-This feature determines the bot's workflow logic, and provide an intuitive interface for human to use AI. `QueryStar` is used here to implement the design with 2 simple function calls. See [Section 3: Bot development)](#section-3-slack-bot-development). 
+This module determines the bot's behavior, and provides an intuitive interface for human to use AI. 
+
+`QueryStar` is used here to implement the design, with only 2 simple function calls. See details in [Section 3: Bot development)](#trigger-action-based-slack-bot). 
 
 :::note
-For who's curious: this `app.py` file (24 lines of Python code) is all we need to build the bot: https://github.com/modelstar-labs/querystar-demo/blob/main/ask_llamaindex_slack_bot/app.py
+For those who are curious: [this `app.py` file (24 lines of Python code)](https://github.com/modelstar-labs/querystar-demo/blob/main/ask_llamaindex_slack_bot/app.py) is all we need to ship the bot.
 :::
 
 ---
 
-## Section 1: Some Basics about `RAG`
+## `RAG` Basics 
 
-When dealing with questions, we often need some reference materials to help to find answers. In this process, we retrieve paragraphs/context that are **relevant** to the questions. A big challenge we will be facing if we want AI to do this: to quantify and mathematically measure **relevancy** between any two pieces of information in the format of human language.
+When dealing with questions, we often need some reference materials to help to find answers. In this process, we retrieve paragraphs/context that are *relevant* to the questions. 
 
-We must find a mathematical representation of text (words, sentences and paragraphs). A widely adopted technique, called `Embedding`, is invented to transform text to vectors. And then, we treat **relevancy** of 2 vectors as the distance between them. 
+A big challenge we will be facing if we want a computer program to do this: 
+**How to quantify and mathematically measure `relevancy` between any two pieces of information in the format of human language.**
 
-This leads to `Retrieval Augmented Generation` (`RAG`):
+We must find a mathematical representation of text (words, sentences and paragraphs), and construct a measurement (as a proxy to `relevancy`) among the representations. 
+
+A technique, called `Embedding`, is widely adopted to transform texts to vectors. With embedding vectors, we can use distance between them to quantify `relevancy`. 
+
+A basic `Retrieval Augmented Generation` (`RAG`) algorithm can be implemented through the following steps:
 1. For any document, we divide the content into chunks. E.g., every 3 sentences, or every 100 words. Let's say we got 500 chucks after this step.
 2. We create `embeddings` for each chunk, which gives us 500 "context vectors".
 3. With any given question, we can get its embedding as well, which gives us 1 "question vector".
 4. Use the question vector to compare with the 500 context vectors, and select top N (e.g., 5) most similar ones. Then we believe all 5 of them are **relevant** to the question.
 5. We put the top 5 **relevant** text chunks in a prompt along with the question, then ask LLMs "answer it only based on the given context, not other prior knowledge".
 
-With `RAG`, we get answers tuned towards specific contexts that are provided to LLM. This helps reducing hallucination and improving accuracy. Sounds fun? Let's code.
+<div style={{ textAlign: 'center' }}>
+<img src={require("./rag-diagram.jpg").default} style={{width: 400}} />
+<p style={{ fontSize: '12px', fontStyle: 'italic' }}> Image Source: LlamaIndex Docs
+</p>
+</div>
+
+
+In contrast to solely sending the question to LLMs for query, `RAG` sends both question and relevant context, which can help to reduce hallucinations and improve accuracy. 
+
+However, implementing all 5 steps on ourselves is not a simple task. This is where `LlamaIndex` comes in handy. It allows us to build a nice `RAG` pipeline with a few function calls. 
+
+:::note
+What makes `LlamaIndex` more appealing to experienced engineers is that it provides many low-level APIs as well for customization. 
+:::
+
+Interested in giving it a try? Let's dive into the coding process.
 
 ---
 
-## Section 2: Data Cleaning and Indexing
+## `RAG` Function
 
-### Data Cleaning
+<img src={require("./rag.jpg").default} style={{width: 500, display: 'block', margin: '0 auto'}} />
 
-LlamaIndex's doc folder can be download from https://github.com/jerryjliu/llama_index/tree/main/docs 
+### Prep: Cleaning
 
-There're many types of files in the folder. We only need to keep `.md` and `.rst` files. The other files (like `.py` or `.bat`) do not contain too much context. Here shows the script:
+Let's start with downloading/cloning [LlamaIndex's doc folder](https://github.com/jerryjliu/llama_index/tree/main/docs) to a local folder `ask_llamaindex_slack_bot`.
+
+There're many types of files in the folder. Some files (like `.py` or `.bat`) do not contain too much context. So, we only want to keep `.md` and `.rst` files:
 
 ```python
 # Data cleaning
@@ -98,9 +121,7 @@ for root, dirs, files in os.walk(dir_path):
             os.remove(file_path)
 ```
 
-### Indexing
-
-`LlamaIndex` provides `SimpleDirectoryReader` function to load a folder. Simply call it and get a `reader` object.
+Once the doc folder is clean, it's very convenient to use `SimpleDirectoryReader` function to load the entire folder to `lidocs` object at once.
 
 ```python
 from llama_index import SimpleDirectoryReader
@@ -109,7 +130,9 @@ reader = SimpleDirectoryReader(input_dir="./lidocs", recursive=True)
 lidocs = reader.load_data()
 ```
 
-Now we're ready to run `indexing`: dividing each document into `chunks` and `embed` them. Normally, we would need hundreds of lines of code to do it, and worry about many implementation details. However, `LlamaIndex` has made it so easy as making one function call: `VectorStoreIndex.from_documents()`. 
+### Prep: Indexing
+
+Now we're ready to build `index`: dividing each document into `chunks` and `embed` them. `LlamaIndex` has a great API for this: `VectorStoreIndex.from_documents()`. Then we store  `index` in files.
 
 ```python
 import openai
@@ -122,18 +145,29 @@ index = VectorStoreIndex.from_documents(lidocs)
 index.storage_context.persist()
 ```
 
-After this, many vectors (totally 32.8 MB, which represent the knowledge from the docs) are obtained and saved in files. Curious how they look like? Find them in the `vector_store.json` file in the [`storage` folder](https://github.com/modelstar-labs/querystar-demo/tree/main/ask_llamaindex_slack_bot/storage).
+The `storage` folder automatically appears: 
+
+```
+├── ask_llamaindex_slack_bot
+│   ├── storage
+│   │   ├── docstore.json
+│   │   ├── graph_store.json
+│   │   ├── index_store.json
+│   │   └── vector_store.json
+
+```
+
+All the `embedding` vectors are saved in `vector_store.json`. The file size is 33 MB, which contains a mathematical presentation of the entire LlamaIndex's documentation.
 
 :::info
-This demo uses GPT, a commercial model service by OpenAI. 
-- Before running it, make sure you have an OpenAI API key. 
-- This may take 2-5 mins to finish, highly depending on API latency in your region. 
-- This step may cost you up to $1 for GPT tokens. To avoid the cost, you can skip this step and find the result in the "storage" folder.
+In this step, we use GPT, a commercial model service by OpenAI. 
+- Before running it, make sure you have an OpenAI API key. may cost you up to $1 for GPT tokens. To avoid the cost, you can skip this step and download [the `storage` folder  from QueryStar demo repo](https://github.com/modelstar-labs/querystar-demo/tree/main/ask_llamaindex_slack_bot/storage).
+- `VectorStoreIndex.from_documents()` call may take 2-5 mins to finish, highly depending on API latency in your region. 
 :::
 
-### `RAG` Function
+### Function Development
 
-With pre-processed indexing file in place, we can finally build the LLM-powered `RAG` function, which takes question and return an answer. We just need to load them to the `index` object, and use `LlamaIndex` built-in query engine to get `response`.
+With the index file in place, we can finally build the `RAG` function. Again, it's simple with `LlamaIndex`. We just need to load them to the `index` object, and use the built-in query engine to get `response`:
 
 ```python
 def ask_llamaindex(question: str):
@@ -148,20 +182,31 @@ def ask_llamaindex(question: str):
     return response
 ```
 
+Now, let's build the bot!
 
 ---
 
-## Section 3: Trigger-Action Based Slack Bot
+## Trigger-Action Based Slack Bot
 
-:::note
-We will use `QueryStar`. For the first time user, please set up the SDK on your computer by following this [quickstart guide](../../quickstart/token). The set up process usually takes less than 5 mins. QueryStar's integrated API service helps to take care of Slack authorization, so **NO** Slack token is required here. QueryStar token is free for 1 Slack workspace connection unlimited bots. 
+<img src={require("./bot.jpg").default} style={{width: 500, display: 'block', margin: '0 auto'}} />
+
+### Prep: QueryStar Setup
+
+QueryStar is a low code Python package to simplify `Trigger-Action` based bot development. It shares the same design philosophy behind [Streamlit](https://github.com/streamlit/streamlit), [PyWebIO](https://github.com/pywebio/PyWebIO) , [Gradio](https://github.com/gradio-app/gradio), [Greppo](https://github.com/greppo-io/greppo): Making it super easy for data teams and Python developers to ship interfaces between human and AI/data. These four projects are used for Web UI, while Querystar is intended for bots (read more: [introduce page](../../introduction/index)).
 
 
-Source code of the bot: https://github.com/modelstar-labs/querystar-demo/blob/main/ask_llamaindex_slack_bot/app.py
+Before running any code in this module, please make sure you already [got a QueryStar token](../../quickstart/token), [installed the library](../../quickstart/install), and [can run the `hello world` slackbot]((../../quickstart/coding)). The setup process should only take you less than 10 mins.
+
+
+:::info
+QueryStar automatically integrate 3rd party API services which also include Slack authorization. So, we do **NOT** need a Slack token here. 
+
+QueryStar token is free for 1 Slack workspace connection and unlimited bots in that workspace. 
 :::
 
+### Prep: Creating `app.py`
 
-Let's create a file `app.py`, imports some packages, and copy the `ask_llamaindex()` function here.
+With QueryStar, a bot can be developed out of a single py file. Let's create a file called `app.py` in `ask_llamaindex_slack_bot` folder, imports some packages, and copy the `ask_llamaindex()` function here. 
 
 ```python
 # app.py
@@ -185,18 +230,23 @@ def ask_llamaindex(question: str):
 ```
 
 
-### Trigger
+### `new_message()` Trigger
 
-A Slack message `trigger` can be easily setup with `querystar.triggers.slack.new_message()`:
+Let's recap how we designed the trigger in the beginning of the tutorial:
+>- The bot should respond to messages that:
+    - are sent to a designated channel, AND
+    - contain trigger word "ask llama".
+
+
+This Slack message `trigger` can be easily done with `triggers.slack.new_message()` function:
 
 ```python
 data = qs.triggers.slack.new_message(channel_id='C05PRRJ0H4N',  # channel: llama-qa
                                      trigger_string='ask llama') 
 
-question = data.get('text', None)
 ```
 
-This script is quite self-explanatory. The bot is set to listen to new Slack messages. When a message matches the filter condition (`channel_id` `AND` `trigger_string`), a `json` object of the message will return to variable `data`. Just parse the object and get message content, i.e. a user question.
+This script is quite self-explanatory. The bot is set to listen to new Slack messages. When a message matches the filter condition (`channel_id` *AND* `trigger_string`), a `json` object of the message will return to variable `data`. 
 
 :::note
 <details><summary>An example message object (click to expand)</summary>
@@ -225,32 +275,43 @@ This script is quite self-explanatory. The bot is set to listen to new Slack mes
 
 
 
-### Action
+### `add_message()` Action
+This is what we designed for the actions:
 
-There remains the last 2 lines of code. After a trigger message is received, the bot calls `ask_llamaindex()` to get an answer, then call `add_message()` to post the answer back to the same channel.
+>    - The bot should extract user question from the trigger message, and run the LLM function to generate an answer.
+    - The bot should post the answer back to the channel. Then, wait for future trigger events.
+
+Let's do it:
 
 ```python
+question = data.get('text', None)
 answer = ask_llamaindex(question)
 # send answer to Slack
 qs.actions.slack.add_message(channel_id='C05PRRJ0H4N', message=f'Llama says: {answer}')
 ```
 
-That's it! Let's test it. Open your terminal, and run this command (make sure the current folder contains the `app.py` file):
+We first parse the trigger message to get `question`, which will be passed to `ask_llamaindex()` to generate an answer. Then, we use `actions.slack.add_message()` to post the answer back to the same channel. 
+
+That's all. Let test it!
+
+
+### End-to-end Test
+
+Open your terminal, run this command in `ask_llamaindex_slack_bot` folder:
 
 ```shell
 $ querystar run app.py
 ```
+Go to Slack and post a trigger message. It works 🤩🤩🤩
 
-It works 🤩🤩🤩
-
-<img src={require("./chat-test.png").default} style={{width: 500}} />
+<img src={require("./chat-test.png").default} style={{width: 500, display: 'block', margin: '0 auto'}} />
 
 
-**Now, you can invite your entire team join this channel to learn `LlamaIndex` together!**
+**Now, you can invite your entire team join this channel and learn `LlamaIndex` together!**
 
 ---
 
 >*Acknowledgement:*
->*This tutorial is inspired by [Build a chatbot with custom data sources, powered by LlamaIndex](https://blog.streamlit.io/build-a-chatbot-with-custom-data-sources-powered-by-llamaindex/) from `Streamlit`. Thank [...], one of the co-authors, for proof reading!*
+>*This tutorial is inspired by [Build a chatbot with custom data sources, powered by LlamaIndex](https://blog.streamlit.io/build-a-chatbot-with-custom-data-sources-powered-by-llamaindex/) by `Streamlit` and `LlamaIndex` teams.*
 
 
