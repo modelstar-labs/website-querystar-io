@@ -1,4 +1,4 @@
-# 🌟 + LlamaIndex: Slack Bot that Understands Your Data (Draft)
+# QueryStar 🌟 + LlamaIndex 🦙: Slack Bot that Understands Your Data (Draft)
 
 <img src={require("./title.png").default} style={{width: 700, display: 'block', margin: '0 auto'}} />
 
@@ -132,7 +132,7 @@ lidocs = reader.load_data()
 
 ### Prep: Indexing
 
-Now we're ready to build `index`: dividing each document into `chunks` and `embed` them. `LlamaIndex` has a great API for this: `VectorStoreIndex.from_documents()`. Then we store  `index` in files.
+Now we're ready to build `index`: dividing each document into chunks and embedding them. `LlamaIndex` has a great API for this: `VectorStoreIndex.from_documents()`. Then we store  `index` in files.
 
 ```python
 import openai
@@ -161,7 +161,7 @@ All the `embedding` vectors are saved in `vector_store.json`. The file size is 3
 
 :::info
 In this step, we use GPT, a commercial model service by OpenAI. 
-- Before running it, make sure you have an OpenAI API key. may cost you up to $1 for GPT tokens. To avoid the cost, you can skip this step and download [the `storage` folder  from QueryStar demo repo](https://github.com/modelstar-labs/querystar-demo/tree/main/ask_llamaindex_slack_bot/storage).
+- Before building the index, make sure you have an OpenAI API key. This step may cost you up to $1 for GPT tokens. To avoid the cost, you can skip this step and download [the `storage` folder  from QueryStar demo repo](https://github.com/modelstar-labs/querystar-demo/tree/main/ask_llamaindex_slack_bot/storage).
 - `VectorStoreIndex.from_documents()` call may take 2-5 mins to finish, highly depending on API latency in your region. 
 :::
 
@@ -192,7 +192,7 @@ Now, let's build the bot!
 
 ### Prep: QueryStar Setup
 
-QueryStar is a low code Python package to simplify `Trigger-Action` based bot development. It shares the same design philosophy behind [Streamlit](https://github.com/streamlit/streamlit), [PyWebIO](https://github.com/pywebio/PyWebIO) , [Gradio](https://github.com/gradio-app/gradio), [Greppo](https://github.com/greppo-io/greppo): Making it super easy for data teams and Python developers to ship interfaces between human and AI/data. These four projects are used for Web UI, while Querystar is intended for bots (read more: [introduce page](../../introduction/index)).
+QueryStar is a low code Python package to simplify `Trigger-Action` based bot development. It shares the same design philosophy behind [Streamlit](https://github.com/streamlit/streamlit), [PyWebIO](https://github.com/pywebio/PyWebIO) , [Gradio](https://github.com/gradio-app/gradio), [Greppo](https://github.com/greppo-io/greppo): Making it super easy for data teams and Python developers to ship interfaces between human and AI/data. These four projects are used for Web UI, while Querystar is intended for bot development (more in [the introduce page](../../introduction/index)).
 
 
 Before running any code in this module, please make sure you already [got a QueryStar token](../../quickstart/token), [installed the library](../../quickstart/install), and [can run the `hello world` slackbot]((../../quickstart/coding)). The setup process should only take you less than 10 mins.
