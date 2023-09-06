@@ -31,8 +31,8 @@ The bot sends a legit answer back to the channel:
     - The bot should respond to messages that:
         - are sent to a designated channel, AND
         - contain trigger word "ask llama".
-    - The bot should extract user question from the trigger message, and run the LLM function to generate an answer.
-    - The bot should post the answer back to the channel. Then, wait for future trigger events.
+    - The bot should extract user questions from the trigger messages, and run the LLM function to generate answers.
+    - The bot should post the answers back to the channel. Then, wait for future trigger events.
 
 
 ## Tech Stack
@@ -67,17 +67,17 @@ For those who are curious: [this `app.py` file (24 lines of Python code)](https:
 When dealing with questions, we often need some reference materials to help to find answers. In this process, we retrieve paragraphs/context that are *relevant* to the questions. 
 
 A big challenge we will be facing if we want a computer program to do this: 
-**How to quantify and mathematically measure `relevancy` between any two pieces of information in the format of human language.**
+**How to quantify and mathematically measure `relevance` between any two pieces of information in the format of human language.**
 
-We must find a mathematical representation of text (words, sentences and paragraphs), and construct a measurement (as a proxy to `relevancy`) among the representations. 
+We must find a mathematical representation of text (words, sentences and paragraphs), and construct a measurement (as a proxy to `relevance`) among the representations. 
 
-A technique, called `Embedding`, is widely adopted to transform texts to vectors. With embedding vectors, we can use distance between them to quantify `relevancy`. 
+A technique, called `embedding`, is widely adopted to transform texts to vectors. With embedding vectors, we can use distance between them to quantify `relevance`. 
 
 A basic `Retrieval Augmented Generation` (`RAG`) algorithm can be implemented through the following steps:
-1. For any document, we divide the content into chunks. E.g., every 3 sentences, or every 100 words. Let's say we got 500 chucks after this step.
+1. For any document, we divide the content into chunks. E.g., every 3 sentences, or every 100 words. Let's say we got 500 chunks after this step.
 2. We create `embeddings` for each chunk, which gives us 500 "context vectors".
 3. With any given question, we can get its embedding as well, which gives us 1 "question vector".
-4. Use the question vector to compare with the 500 context vectors, and select top N (e.g., 5) most similar ones. Then we believe all 5 of them are **relevant** to the question.
+4. Use the question vector to compare with the 500 context vectors, and select top N (e.g., 5) most similar ones. Then we believe those 5 of them are the most **relevant** to the question.
 5. We put the top 5 **relevant** text chunks in a prompt along with the question, then ask LLMs "answer it only based on the given context, not other prior knowledge".
 
 <div style={{ textAlign: 'center' }}>
@@ -103,7 +103,7 @@ Interested in giving it a try? Let's dive into the coding process.
 
 <img src={require("./rag.jpg").default} style={{width: 500, display: 'block', margin: '0 auto'}} />
 
-### Prep: Cleaning
+### Prep: Data Cleaning
 
 Let's start with downloading/cloning [LlamaIndex's doc folder](https://github.com/jerryjliu/llama_index/tree/main/docs) to a local folder `ask_llamaindex_slack_bot`.
 
@@ -130,7 +130,7 @@ reader = SimpleDirectoryReader(input_dir="./lidocs", recursive=True)
 lidocs = reader.load_data()
 ```
 
-### Prep: Indexing
+### Prep: Document Indexing
 
 Now we're ready to build `index`: dividing each document into chunks and embedding them. `LlamaIndex` has a great API for this: `VectorStoreIndex.from_documents()`. Then we store  `index` in files.
 
@@ -292,7 +292,7 @@ qs.actions.slack.add_message(channel_id='C05PRRJ0H4N', message=f'Llama says: {an
 
 We first parse the trigger message to get `question`, which will be passed to `ask_llamaindex()` to generate an answer. Then, we use `actions.slack.add_message()` to post the answer back to the same channel. 
 
-That's all. Let test it!
+That's all!
 
 
 ### End-to-end Test
@@ -314,5 +314,3 @@ Go to Slack and post a trigger message. It works 🤩🤩🤩
 >*Acknowledgement:*
 >*Thanks to [Yi Ding (Head of Typescript and DevRel @LlamaIndex)](https://www.linkedin.com/in/dingy/) for proofreading!*
 >*This tutorial is inspired by [Build a chatbot with custom data sources, powered by LlamaIndex](https://blog.streamlit.io/build-a-chatbot-with-custom-data-sources-powered-by-llamaindex/) by `Streamlit` and `LlamaIndex` teams.*
-
-
