@@ -42,7 +42,7 @@ const sidebars = {
             items: [{
                 type: "category",
                 label: "LLM Bot",
-                collapsed: true,
+                collapsed: false,
                 items: [
                     "tutorials/llamaindex-doc-bot/index",
                 ],
