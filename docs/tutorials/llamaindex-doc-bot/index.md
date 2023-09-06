@@ -192,10 +192,10 @@ Now, let's build the bot!
 
 ### Prep: QueryStar Setup
 
-QueryStar is a low code Python package to simplify `Trigger-Action` based bot development. It shares the same design philosophy behind [Streamlit](https://github.com/streamlit/streamlit), [PyWebIO](https://github.com/pywebio/PyWebIO) , [Gradio](https://github.com/gradio-app/gradio), [Greppo](https://github.com/greppo-io/greppo): Making it super easy for data teams and Python developers to ship interfaces between human and AI/data. These four projects are used for Web UI, while Querystar is intended for bot development (more in [the introduce page](../../introduction/index)).
+QueryStar is a low code Python package to simplify `Trigger-Action` based bot development. It shares the same design philosophy behind [Streamlit](https://github.com/streamlit/streamlit), [PyWebIO](https://github.com/pywebio/PyWebIO) , [Gradio](https://github.com/gradio-app/gradio), [Greppo](https://github.com/greppo-io/greppo): Making it super easy for data teams and Python developers to ship interfaces between human and AI/data. These four projects are used for Web UI, while Querystar is intended for bot development (more in [the introduce page](../../introduction)).
 
 
-Before running any code in this module, please make sure you already [got a QueryStar token](../../quickstart/token), [installed the library](../../quickstart/install), and [can run the `hello world` slackbot]((../../quickstart/coding)). The setup process should only take you less than 10 mins.
+Before running any code in this module, please make sure you already [got a QueryStar token](../../quickstart/token), [installed the library](../../quickstart/install), and [can run the `hello world` slackbot](../../quickstart/coding). The setup process should only take you less than 10 mins.
 
 
 :::info
