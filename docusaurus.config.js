@@ -182,10 +182,10 @@ const config = {
                                 label: "Tutorials",
                                 to: "/docs/tutorials/llamaindex-doc-bot",
                             },
-                            {
-                                label: "API Reference",
-                                to: "/docs/api",
-                            },
+                            // {
+                            //     label: "API Reference",
+                            //     to: "/docs/api",
+                            // },
                         ],
                     },
                     {
