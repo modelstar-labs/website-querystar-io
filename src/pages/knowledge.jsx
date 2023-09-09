@@ -1,18 +1,21 @@
 import React from "react";
-import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
-// import Image from "@theme/IdealImage";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
+import Head from "@docusaurus/Head";
 
 export default function knowledge() {
     const { siteConfig } = useDocusaurusContext();
     return (
         <Layout
-            title={`${siteConfig.title}`}
-            description="Workflow Automation in a Few Lines of Python"
+            title="QueryStar | Developer-First Internal Knowledge Management"
+            description="QueryStar automatically learns from your internal wikis, technical docs, chat history, tickets, manuals and other unstructured data. The knowledge are exposed to developers through a low code SDK."
         >
+            <Head>
+                <meta property="og:image" content="og_knowledge.png" />
+                <meta property="twitter:image" content="og_knowledge.png" />
+            </Head>
             <main
                 className="bg-slate-50"
                 style={{
@@ -33,21 +36,22 @@ export default function knowledge() {
                                 a low code SDK.
                             </p>
 
-                            <a
-                                className="button mt-10 mx-auto bg-cyan-700 text-lg rounded-lg px-2 py-1 border-none w-40"
+                            <Link
+                                className="inline-block mt-10 mb-10 mx-auto bg-sky-400 text-lg font-medium
+                                rounded-lg px-3 py-1 border-none text-black hover:text-black hover:no-underline no-underline"
                                 href="https://calendly.com/querystar/30min"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                // target="_blank"
+                                // rel="noopener noreferrer"
                             >
                                 Book a demo
-                            </a>
+                            </Link>
                         </div>
                         <div className="mt-5 md:mt-0 place-self-center">
                             {/* <Image
                                 img={require("../assets/images/knowledge_h.png")}
                             /> */}
                             <img
-                                className="mx-auto w-[350px] md:w-[300px] lg:w-[400px]"
+                                className="mx-auto w-[270px] sm:w-[350px] md:w-[300px] lg:w-[400px]"
                                 src={useBaseUrl("/img/knowledge_h.png")}
                             />
                         </div>
@@ -126,14 +130,15 @@ export default function knowledge() {
                                     on top of the chat data, and automatically
                                     respond to questions.
                                 </p>
-                                <a
-                                    className="button mt-5 mx-auto bg-cyan-700 text-lg rounded-lg px-2 py-1 border-none w-40"
+                                <Link
+                                    className="inline-block mt-5 mx-auto bg-sky-400 text-md font-medium
+                                rounded-lg px-3 py-1 border-none text-black hover:text-black hover:no-underline no-underline"
                                     href="https://calendly.com/querystar/30min"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    // target="_blank"
+                                    // rel="noopener noreferrer"
                                 >
                                     Book a demo
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>

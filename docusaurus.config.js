@@ -6,8 +6,9 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-    title: "Workflow Automation in a Few Lines of Python",
-    tagline: "Build Event-Trigger Based Automation Across Your SaaS Tools.",
+    title: "Querystar | Build Trigger-Action Based Workflows in a Few Lines of Python",
+    tagline:
+        "Use one set of APIs to automate workflows across all your SaaS tools. QueryStar Library turns scripts into bots instantly.",
     favicon: "favicon.ico",
 
     // Set the production url of your site here
@@ -73,7 +74,59 @@ const config = {
                 respectPrefersColorScheme: false,
             },
             // Replace with your project's social card
-            image: "img/docusaurus-social-card.jpg",
+            image: "og.png",
+            metadata: [
+                {
+                    name: "keywords",
+                    content:
+                        "workflow, automation, python, trigger, action, saas, tools, api, unified-api, integration, llm, llama-index, langchain, slack, google, gdrive, sheets, knowledge, base",
+                },
+                {
+                    name: "description",
+                    content:
+                        "Build Trigger-Action Based Workflows in a Few Lines of Python. Use one set of APIs to automate workflows across all your SaaS tools. Out of the box support to build knowledge base from your data.",
+                },
+                // {
+                //     property: "og:title",
+                //     content:
+                //         "QueryStar: Build Trigger-Action Based Workflows in a Few Lines of Python.",
+                // },
+                // {
+                //     name: "twitter:title",
+                //     content:
+                //         "QueryStar: Build Trigger-Action Based Workflows in a Few Lines of Python.",
+                // },
+                // {
+                //     property: "og:description",
+                //     content:
+                //         "QueryStar: Build Trigger-Action Based Workflows in a Few Lines of Python.",
+                // },
+                // {
+                //     name: "twitter:description",
+                //     content:
+                //         "QueryStar: Build Trigger-Action Based Workflows in a Few Lines of Python.",
+                // },
+                // {
+                //     property: "og:type",
+                //     content: "website",
+                // },
+                // {
+                //     property: "og:url",
+                //     content: "https://querystar.io",
+                // },
+                // {
+                //     property: "og:image",
+                //     content: "https://querystar.io/og.png",
+                // },
+                // {
+                //     name: "twitter:image",
+                //     content: "https://querystar.io/og.png",
+                // },
+                // {
+                //     name: "twitter:card",
+                //     content: "summary_large_image",
+                // },
+            ],
             navbar: {
                 title: "QueryStar",
                 logo: {
@@ -81,6 +134,11 @@ const config = {
                     src: "logo.png",
                 },
                 items: [
+                    {
+                        to: "pricing",
+                        position: "right",
+                        label: "Pricing",
+                    },
                     {
                         type: "docSidebar",
                         sidebarId: "docs",
@@ -111,7 +169,56 @@ const config = {
                 ],
             },
             footer: {
-                style: "dark",
+                style: "light",
+                links: [
+                    {
+                        title: "Docs",
+                        items: [
+                            {
+                                label: "Quickstart",
+                                to: "/docs/introduction/",
+                            },
+                            {
+                                label: "Tutorials",
+                                to: "/docs/tutorials/llamaindex-doc-bot",
+                            },
+                            {
+                                label: "API Reference",
+                                to: "/docs/api",
+                            },
+                        ],
+                    },
+                    {
+                        title: "Resources",
+                        items: [
+                            {
+                                label: "GitHub",
+                                href: "https://github.com/modelstar-labs/querystar",
+                            },
+                            {
+                                label: "Knowledge Management",
+                                to: "/knowledge",
+                            },
+                        ],
+                    },
+                    {
+                        title: "Legal",
+                        items: [
+                            {
+                                label: "Privacy",
+                                to: "/Privacy",
+                            },
+                            {
+                                label: "Terms",
+                                to: "/terms",
+                            },
+                            {
+                                label: "Cookie policy",
+                                to: "/cookies",
+                            },
+                        ],
+                    },
+                ],
                 copyright: `Copyright © ${new Date().getFullYear()} QueryStar`,
             },
             prism: {
