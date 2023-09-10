@@ -46,7 +46,7 @@ export default function knowledge() {
                             /> */}
                             <img
                                 className="mx-auto w-[350px] md:w-[300px] lg:w-[400px]"
-                                src={useBaseUrl("/img/knowledge_h.png")}
+                                src={useBaseUrl("/img/index_h.png")}
                             />
                         </div>
                     </div>
@@ -64,7 +64,7 @@ export default function knowledge() {
                                 <p className="mt-10">
                                     Add a trigger or action in just one API
                                     call. Everything else is taken care of. Not
-                                    even access a token is needed.
+                                    even an access token is needed.
                                 </p>
                             </div>
                             <div className="md:order-1 mt-5 md:mt-0 place-self-center">
@@ -82,9 +82,9 @@ export default function knowledge() {
                                     </span>
                                 </h3>
                                 <p className="mt-10">
-                                    Add a trigger or action in just one API
-                                    call. Everything else is taken care of. Not
-                                    even access a token is needed.
+                                    Use your favorite code editor,  Python packages, 
+                                    large language models, data APIs, CI/CD. No limit 
+                                    on what you can build.
                                 </p>
                             </div>
                             <div className="md:order-3 mt-5 md:mt-0 place-self-center">
@@ -103,9 +103,9 @@ export default function knowledge() {
                                     </span>
                                 </h3>
                                 <p className="mt-10">
-                                    Add a trigger or action in just one API
-                                    call. Everything else is taken care of. Not
-                                    even access a token is needed.
+                                    Enjoy automation, as much as enjoy humanity. 
+                                    The more we let SaaS tools and AI do, 
+                                    the more we can achieve, as humans.
                                 </p>
                                 <Link
                                     className="inline-block mt-4 mx-auto text-sm bg-sky-400 hover:bg-sky-500 rounded 
@@ -136,7 +136,7 @@ export default function knowledge() {
                             <div className="ml-5 mt-5 md:m-0">
                                 <Link
                                     className="inline-block button bg-fuchsia-600 "
-                                    to="docs/introduction/"
+                                    to="docs/tutorials/llamaindex-doc-bot/"
                                 >
                                     Check it out
                                 </Link>
@@ -154,14 +154,13 @@ export default function knowledge() {
                                     code
                                 </li>
                                 <li>
-                                    The bot answers can answer questions about
+                                    The bot can answer questions about
                                     the docs
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-
                 <div className="container text-center">
                     <h4>QueryStar is different</h4>
                     <h2>Comparing Every Workflow</h2>
