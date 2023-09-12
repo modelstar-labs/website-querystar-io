@@ -155,20 +155,20 @@ const config = {
                         className: "header-github-link",
                         "aria-label": "GitHub repository",
                     },
-                    // {
-                    //     to: "https://app.querystar.io",
-                    //     label: "Sign in",
-                    //     position: "right",
-                    //     className:
-                    //         "button button--primary button--outline button--md margin-horiz--sm",
-                    // },
-                    // {
-                    //     to: "https://app.fillout.com/t/4Nh5FWvFf7us",
-                    //     label: "Sign up to waitlist",
-                    //     position: "right",
-                    //     className:
-                    //         "button button--primary button--md margin-horiz--sm",
-                    // },
+                    {
+                        to: "https://app.querystar.io/signin",
+                        label: "Sign in",
+                        position: "right",
+                        className:
+                            "button button--primary button--outline button--md margin-horiz--md",
+                    },
+                    {
+                        to: "https://app.querystar.io/signup",
+                        label: "Sign up",
+                        position: "right",
+                        className:
+                            "button button--primary button--md margin-horiz--sm",
+                    },
                 ],
             },
             footer: {
