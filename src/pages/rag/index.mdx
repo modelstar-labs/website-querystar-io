@@ -1,0 +1,309 @@
+---
+title: Retrieval Augmented Generation (RAG) Enhanced Workflow Automations
+description: Retrieval Augmented Generation (RAG) Enhanced Workflow Automations
+keywords:
+    - Retrieval Augmented Generation
+    - Slack Bot
+    - LlamaIndex
+    - Workflow Automation
+    - Large Language Models
+    - In-Context Learning
+    - QueryStar
+image: http://querystar.io/assets/images/fig_1-dde0f1512adc6eccd5fed2d952e79de6.png
+---
+
+import Image from "@theme/IdealImage";
+
+# Retrieval Augmented Generation (RAG) Enhanced Workflow Automations
+
+<!-- <img src={require("./fig_1.png").default} style={{width: 500, display: 'block', margin: '0 auto'}} /> -->
+
+<Image img={require("./fig_1.png")} />
+
+<!-- Figure Retrieval Augmented Generation Enhanced Workflow Automation in a few lines of Python. (Image by Author) -->
+
+Workflow automations have predominantly encompassed simple "if-this-then-that" (IFTTT) tasks that supported simple data transfer from one task to another. For example: when a Google form gets submitted, it's content is sent as a slack message. These automations are often referred to as Trigger-Action based workflows, where a trigger (such as a new email, slack message, a signup, a form submit) would set off a train of actions (such as parsing a message, adding a row to Google Sheets, sending a notification). Performing simple information transfer have been the crux of these workflows, and have mostly evolved horizontally to integrate with the vast array of SaaS tools ranging from Google Sheets/Docs/Drive, Mailchimp, Slack, Confluence, Jira, Notion etc.
+
+The latest advances in Large Language Models (LLM) show great potential to enhance our capabilities to build workflows that are beyond simple triggers and actions. As an example, there have been an increasing number of tools that showcase Slack bots performing specific business logic-related tasks, such answering questions based on data stored in data warehouses (sql generation & execution), answering questions based on documents (retrieval and summarisation), and so on.
+
+### Putting RAG into perspective
+
+One of the common tasks in automations, as mentioned above, have been to answer questions based on certain documents. Which also happens to be a widely recognized use-case for LLMs. However, LLMs being general completion models require domain specific context when it comes to answering domain specific questions. This is where In-Context Learning (ICL) implemented using Retrieval Augmented Generation (RAG) shines. Okay, that sounds like a mouthful, let me unpack it.
+
+LLMs can be trained on, and/or fine tuned with a corpus of relevant documents to answer questions on those documents. However, the cost of model training and fine-tuning can be high. Another approach is to use In-Context Learning: adding relevant information about the question into a prompt, then using an LLM to generate an answer. This approach is geared towards prompt engineering, where the prompts must include all relevant information about the question.
+
+> But, how do we get relevant information about the question?
+
+There are many algorithms being developed to do this task. Here, we will mainly discuss the "Embedding Search" approach. We first store a document as chunks of text along with their embedding vectors. This step can give us a simple Knowledge Base. Then, we use vector similarity to find chunks of text that are relevant to the question. This will be explained in detail in later sections. With the relevant information, a prompt can be finally designed to answer our question.
+
+### Modern vs. traditional workflow automations
+
+As can be seen from above, the workflow above has a complicated maze of data ingestion, processing tasks, and finally generation of the answer (result). Contrasting this with traditional workflows of simple if-this-then-that tasks begs us to consider a more programmatic approach where we can make use of state of the art libraries such as LangChain, Llama-index, and access custom APIs.
+
+To understand better the new evolution of workflow automations, lets dive deep into an example of document based question-answering, by designing the triggers-actions, and implementing RAG. The use case would be to implement a Slack bot to answer a question posted to a channel. The question will be based on a few documents.
+
+## Ingredients for an RAG based Workflow Automation
+
+<!-- <img src={require("./fig_2.png").default} style={{width: 500, display: 'block', margin: '0 auto'}} /> -->
+<!-- Figure to show the essential parts of implementing the use-case end-to-end. (Image by Author) -->
+
+<Image img={require("./fig_2.png")} />
+
+The three main ingredients, or perhaps the only ingredients you'd need are:
+
+1. A framework to listen to triggers, and execute actions or tasks.
+2. A framework to implement Retrieval Augmented Generation.
+3. An LLM to work with.
+
+Assuming that you'd be using Python, here are your options.
+
+### Trigger-Action Framework 
+
+Since the use case we are implementing is to listen to a Slack channel for a message, and reply an answer to that message in Slack there are two options:
+
+1. [bolt-python](https://github.com/SlackAPI/bolt-python) the official Python SDK from Slack to work with Slack APIs. Using this requires you to setup an App and connect it to your workspace you are an admin of, secure all the scopes needed for the task, setup an event listener endpoint or use a websocket connection provided with the SDK to listen to incoming messages that match your trigger conditions. As this setup is far beyond the scope of what we want to discuss in this post, we will opt for an easier alternative.
+2. [querystar](https://github.com/modelstar-labs/querystar) is a Python framework that let's you setup integrations and work with popular SaaS tools like Slack and Google Sheets without the fuss of authentication, access control, setting up event listeners using web hooks.
+
+We will use [QueryStar](https://querystar.io/) for the use case we are implementing. Here is a [quickstart](https://querystar.io/docs/quickstart/token/) on how to get started with it.
+
+### RAG framework
+
+There are quite a few frameworks available to implement this, the most popular ones are:
+
+1. [LangChain](https://www.langchain.com/) is a very popular framework in Python to work with LLMs,. It provides APIs to create embeddings, and build knowledge bases. That being said, LangChain is a general framework for prompt engineering to build prompt chains, observe and debug etc. RAG is only one of the many built-in modules.
+
+2. [LlamaIndex](https://github.com/jerryjliu/llama_index) on the other hand is primarily built as a data framework to work with LLMs. It has out of the box functions to create Knowledge Bases, and implement RAG, and connect to LLMS to implement question-answering workflows.
+
+We will use LlamaIndex for implementing our use case. You can find further documentation on [LlamaIndex](https://gpt-index.readthedocs.io/en/latest/) here.
+
+### The LLM
+
+The final ingredient is the Large Language Model. There are plenty of LLM options available at this point to choose from. They differ in openness and utility for specific purposes.
+
+We will use OpenAI's LLM in implementing our case. Get yourself a token from [here](https://platform.openai.com/).
+
+## The recipe
+
+With all the ingredients in place let's get started with the use case.
+
+### Step 1: Build the RAG
+
+The documents we will be asking questions on, are the documentation of the LlamaIndex library. A sample question we could ask is:
+
+> Question: In llama-index, what is a knowledge graph?
+
+**_Data Preparation_**
+
+Let's start with downloading/cloning [LlamaIndex's doc folder](https://github.com/jerryjliu/llama_index/tree/main/docs) to a local folder `ask_llamaindex_slack_bot`.
+
+There're many types of files in the folder. Some files (like `.py` or `.bat`) do not contain too much context. So, we only want to keep `.md` and `.rst` files:
+
+```py
+# Data cleaning
+dir_path = './lidocs'  #local folder of LlamaIndex documentations
+for root, dirs, files in os.walk(dir_path):
+    for file in files:
+        if file.endswith(('.md', '.rst')):
+            continue
+        else:
+            file_path = os.path.join(root, file)
+            os.remove(file_path)
+```
+
+Once the doc folder is clean, it's very convenient to use `SimpleDirectoryReader` function provided in `llama_index` to load the entire folder to `lidocs` object at once.
+
+```py
+from llama_index import SimpleDirectoryReader
+
+reader = SimpleDirectoryReader(input_dir="./lidocs", recursive=True)
+lidocs = reader.load_data()
+```
+
+**_Document Indexing​_**
+
+Now we're ready to build the `index`: dividing each document into chunks and embedding them. `LlamaIndex` has a great API for this: `VectorStoreIndex.from_documents()`. Then we store `index` in files.
+
+```py
+import openai
+from llama_index import VectorStoreIndex
+
+openai.api_key = os.getenv('OPENAI_API_KEY')
+index = VectorStoreIndex.from_documents(lidocs)
+# save index to files
+index.storage_context.persist()
+```
+
+The storage folder automatically appears:
+
+```shell
+├── ask_llamaindex_slack_bot
+│ ├── storage
+│ │ ├── docstore.json
+│ │ ├── graph_store.json
+│ │ ├── index_store.json
+│ │ └── vector_store.json
+```
+
+All the `embedding` vectors are saved in `vector_store.json`. The file size is 33 MB, which contains a mathematical representation of the entire LlamaIndex's documentation.
+
+:::note
+In this step, we use GPT, a commercial model service by OpenAI.
+
+Before building the index, make sure you have an OpenAI API key. This step may cost you up to $1 for the tokens used. To avoid the cost, you can skip this step and download _[the `storage` folder from QueryStar demo repo](https://github.com/modelstar-labs/querystar-demo/tree/main/ask_llamaindex_slack_bot/storage)_.
+
+`VectorStoreIndex.from_documents()` call may take 2-5 mins to finish, highly depending on API latency in your region.​
+:::
+
+**_RAG Function_**
+
+With the index file in place, we can finally build the `RAG` function. Again, it's simple with `LlamaIndex`. We just need to load them to the `index` object, and use the built-in query engine to get `response`:
+
+```py
+from llama_index import StorageContext, load_index_from_storage
+import os, openai
+
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+def ask_llamaindex(question: str):
+    # rebuild storage context
+    storage_context = StorageContext.from_defaults(persist_dir="./storage")
+    # load index
+    index = load_index_from_storage(storage_context)
+    query_engine = index.as_query_engine()
+    response = query_engine.query(question)
+
+    return response
+```
+
+This will the function we will use to answer questions.
+
+### Step 2: Build the Bot
+
+Before running any code in this section, please make sure you've already [gotten a QueryStar token](https://querystar.io/docs/quickstart/token/), [installed the library](https://querystar.io/docs/quickstart/install/), and [can run the `hello world` Slackbot](https://querystar.io/docs/quickstart/coding/). The setup process should only take you less than 10 mins.
+
+:::note
+QueryStar helps integrate easily with 3rd party API services which also include Slack authorization. So, we do NOT need a Slack token here.
+:::
+
+So, the workflow to implement a question-answering bot in Slack are:
+
+1. Listen for a new message event in a channel. This means the app would be notified whenever a new message, in our case a question is posted to a Slack channel.
+2. Get the answer for the question, using RAG implemented in the section above. We will use the function `ask_llamaindex()` we created above.
+3. Send the answer as a reply to the question in Slack.
+
+Since (2) is already implemented above, let's see how to implement (1) and (3).
+
+**_Listen to new messages in Slack_**
+
+`querystar` provides a convenient function to receive notifications of new messages posted to a channel in Slack. These functions, which you use to listen to events are named triggers in `querystar`. For a Slack message we would use the `querystar.triggers.slack.new_message()` function. Here is how you can use it:
+
+```py
+import querystar as qs
+
+data = qs.triggers.slack.new_message(channel_id='C05PRRJ0H4N',
+                                     trigger_string='ask llama')
+```
+
+This script is set to listen to a new Slack message. When a message matches the filter condition (`channel_id` AND `trigger_string`), a `dict` object of the message will return to variable `data`.
+
+Here is an example of the return:
+
+```json
+{
+    "client_msg_id":"...",
+    "type":"message",
+    "text":"ask llama: ...",
+    "user":"useid...",
+    "ts":"1693582549.746649",
+    "blocks":[...],
+    "team":"...",
+    "thread_ts":"1693536314.270179",
+    "parent_user_id":"...",
+    "channel":"C05PRRJ0H4N",
+    "event_ts":"1693582549.746649",
+    "channel_type":"group"
+}
+```
+
+**_Send reply to the question in Slack​_**
+
+From the message data we received above, we can extract the question from the `text` property of the data `dict`. And using the `ask_llamaindex` function above we can get an answer:
+
+```py
+question = data.get('text', None)
+answer = ask_llamaindex(question)
+```
+
+Then, we use `actions.slack.add_message()` to post the answer back to the same channel.
+
+```py
+from querystar import qs
+
+# send answer to Slack
+qs.actions.slack.add_message(channel_id='C05PRRJ0H4N',
+                              message=f'Answer is: {answer}')
+```
+
+Let's put all of these pieces together into a complete workflow in app.py :
+
+```py
+import os
+import openai
+from llama_index import StorageContext, load_index_from_storage
+import querystar as qs
+
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+def ask_llamaindex(question: str):
+    # rebuild storage context
+    storage_context = StorageContext.from_defaults(persist_dir="./storage")
+    # load index
+    index = load_index_from_storage(storage_context)
+    query_engine = index.as_query_engine()
+    response = query_engine.query(question)
+
+    return response
+
+# Listen for a question in Slack channel
+data = qs.triggers.slack.new_message(channel_id='C05PRRJ0H4N',
+                                     trigger_string='ask llama')
+
+# Find the answer
+question = data.get('text', None)
+answer = ask_llamaindex(question)
+
+# Send answer to back to Slack channel
+qs.actions.slack.add_message(channel_id='C05PRRJ0H4N',
+                              message=f'Answer is: {answer}')
+```
+
+### Step 3: Running the app.py
+
+Open your terminal, run this command inside the folder `ask_llamaindex_slack_bot` with your Python environment activated that contains the requirements of `querystar`, `openai`, and `llama-index` installed.
+
+```shell
+querystar run app.py
+```
+
+Asking a question in the specified Slack channel would result in:
+
+<!-- <img src={require("./fig_3.png").default} style={{width: 500, display: 'block', margin: '0 auto'}} /> -->
+<!-- Figure showing the trigger (question) and action (answer reply) of the bot created. (Image by Author) -->
+
+<Image img={require("./fig_3.png")} />
+
+**_Now, you can invite your entire team to join this channel and learn LlamaIndex together!_**
+
+## Conclusions
+
+Tasks that were once limited to specific trained language models are now very easy to integrate and use in workflows thanks to the development of Large Language Models. This has opened up the possibilities to explore more powerful workflow automations. With a programmatic approach you can use many state of the art libraries: for example Llama-Index and LangChain, or even in house libraries. A quick and easy approach to automate these workflows in Python is using [QueryStar](https://querystar.io/). In this article we've seen an end-to-end implementation of a Slack bot, which represents a use case of workflow automation, to answer questions based on a certain set of documents.
+
+<!-- <img src={require("./fig_4.png").default} style={{width: 500, display: 'block', margin: '0 auto'}} /> -->
+<!-- Figure Picture showing a summary of the entire article. (Image by Author) -->
+
+<Image img={require("./fig_4.png")} />
+
+Links to the frameworks used in this article:
+
+-   QueryStar: https://github.com/modelstar-labs/querystar
+-   LlamaIndex: https://github.com/jerryjliu/llama_index
