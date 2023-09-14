@@ -1,30 +1,37 @@
+import Image from "@theme/IdealImage";
+
 # Actions
 
 ### `actions.slack.add_message()`
 
 #### Description
+
 Send a Slack message.
 
 #### Parameters
-- `channel_id`: a channel id string. 
-  - Required.
-  - Example: `'a12345678'`
-  - It can be found on this page:
 
-    <img src={require("./find_channel_id.png").default} style={{width: 400}} />
-- `message`: body of the message, string. 
-  - Required.
-- `thread_ts`: a timestamp string. 
-  - Optional. Default: `''` (not a reply in a thread)
-  - Usage: Provide another message's parent ts value to make this message a reply in the same thread.
-- `reply_broadcast`: boolean. 
-  - Optional. Default: `False`.
-  - Usage: Used in conjunction with `thread_ts` and indicates whether reply should be made visible to everyone in the channel or conversation. 
+-   `channel_id`: a channel id string.
 
-<!-- - icon_emoji: str = '', 
+    -   Required.
+    -   Example: `'a12345678'`
+    -   It can be found on this page:
+
+        <Image img={require("./find_channel_id.png")} style={{width: 400}} />
+
+-   `message`: body of the message, string.
+    -   Required.
+-   `thread_ts`: a timestamp string.
+    -   Optional. Default: `''` (not a reply in a thread)
+    -   Usage: Provide another message's parent ts value to make this message a reply in the same thread.
+-   `reply_broadcast`: boolean.
+    -   Optional. Default: `False`.
+    -   Usage: Used in conjunction with `thread_ts` and indicates whether reply should be made visible to everyone in the channel or conversation.
+
+<!-- - icon_emoji: str = '',
 - icon_url: str = '' -->
 
 #### Return
+
 Example data structure:
 
 <details><summary>Expand</summary>
@@ -57,25 +64,27 @@ Example data structure:
 </details>
 
 #### Errors and Warnings
+
 Refer to [this doc from Slack](https://api.slack.com/methods/chat.postMessage#errors).
-
-
 
 ### `actions.slack.find_message()`
 
 #### Description
+
 Search for messages that matches a query
 
 #### Parameters
-- `query`: query string.
-- `count`: int
-  - Optional. Default: `20`.
-- `sort`: string, `'score'` or `'timestamp'`.
-  - Optional. Default: `'score'`.
-- `sort_direction`: string, `asc` or `'desc'`.
-  - Optional. Default: `'desc'`.
+
+-   `query`: query string.
+-   `count`: int
+    -   Optional. Default: `20`.
+-   `sort`: string, `'score'` or `'timestamp'`.
+    -   Optional. Default: `'score'`.
+-   `sort_direction`: string, `asc` or `'desc'`.
+    -   Optional. Default: `'desc'`.
 
 #### Return
+
 Example data structure:
 
 <details><summary>Expand</summary>
@@ -153,19 +162,22 @@ Example data structure:
 </details>
 
 #### Errors and Warnings
-Refer to [this doc from Slack](https://api.slack.com/methods/search.messages#errors).
 
+Refer to [this doc from Slack](https://api.slack.com/methods/search.messages#errors).
 
 ### `actions.slack.find_user()`
 
 #### Description
+
 Get user information from user id.
 
 #### Parameters
-- `user_id`: user_id string.
-  - Required.
+
+-   `user_id`: user_id string.
+    -   Required.
 
 #### Return
+
 Example data structure:
 
 <details><summary>Expand</summary>
@@ -219,22 +231,26 @@ Example data structure:
 </details>
 
 #### Errors and Warnings
-Refer to [this doc from Slack](https://api.slack.com/methods/users.info#errors).
 
+Refer to [this doc from Slack](https://api.slack.com/methods/users.info#errors).
 
 ### `actions.slack.find_permalink()`
 
 #### Description
+
 Return a permalink URL of a message based on `channel id` and `timestamp`
 
 #### Parameters
-- `channel_id`: query string.
-  - Required.
 
-- `message_ts`: timestamp string.
-  - Required.
+-   `channel_id`: query string.
+
+    -   Required.
+
+-   `message_ts`: timestamp string.
+    -   Required.
 
 #### Return
+
 Example data structure:
 
 <details><summary>Expand</summary>
@@ -246,22 +262,21 @@ Example data structure:
     "channel": "C123ABC456",
     "permalink": "https://ghostbusters.slack.com/archives/C1H9RESGA/p135854651500008"
 }
-
 ```
 
 </p>
 </details>
 
 #### Errors and Warnings
-Refer to [this doc from Slack](https://api.slack.com/methods/chat.getPermalink#errors).
 
+Refer to [this doc from Slack](https://api.slack.com/methods/chat.getPermalink#errors).
 
 <!-- Template
 
 ### `querystar.actions.slack.`
 
 #### Description
-Get 
+Get
 
 #### Parameters
 - `p`: query string.
