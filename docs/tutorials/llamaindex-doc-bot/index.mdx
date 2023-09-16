@@ -92,13 +92,12 @@ A basic `Retrieval Augmented Generation` (`RAG`) algorithm can be implemented th
 4. Use the question vector to compare with the 500 context vectors, and select top N (e.g. 5) most similar ones. Then we believe those 5 are the most **relevant** to the question.
 5. We put the top 5 **relevant** text chunks in a prompt along with the question, and ask the LLM to "answer it only based on the given context, not other prior knowledge."
 
-<div style={{ textAlign: "center" }}>
-    <img src={require("./rag-diagram.jpg")} style={{ width: 400 }} />
-    <p style={{ fontSize: "12px", fontStyle: "italic" }}>
-        {" "}
-        Image Source: LlamaIndex Docs
-    </p>
-</div>
+
+<Image
+    img={require("./rag-diagram.jpg")}
+    style={{ width: 400, display: "block", margin: "0 auto" }}
+/>
+<p style={{ fontSize: '12px', fontStyle: 'italic', textAlign: 'center' }}>Image Source: LlamaIndex Docs</p>
 
 In contrast to solely sending the question to LLMs for query, `RAG` sends both question and relevant context, which can help to reduce hallucinations and improve accuracy.
 
