@@ -4,7 +4,7 @@ import Image from "@theme/IdealImage";
 
 <Image
     img={require("./title.png")}
-    style={{ width: 700, display: "block", margin: "0 auto" }}
+    style={{ maxWidth: 700, display: "block", margin: "0 auto" }}
 />
 
 > _Acknowledgement:_ >_Thanks to [Yi Ding (Head of Typescript and DevRel @LlamaIndex)](https://www.linkedin.com/in/dingy/) and [Caroline Frasca (Lu) (Senior Developer Experience Manager @Streamlit)](https://www.linkedin.com/in/carolinedfrasca/) for proofreading!_ >_This tutorial is inspired by [Build a chatbot with custom data sources, powered by LlamaIndex](https://blog.streamlit.io/build-a-chatbot-with-custom-data-sources-powered-by-llamaindex/) by `Streamlit` and `LlamaIndex` teams._
@@ -15,7 +15,7 @@ import Image from "@theme/IdealImage";
 
 <Image
     img={require("./code.png")}
-    style={{ width: 500, display: "block", margin: "0 auto" }}
+    style={{ maxWidth: 500, display: "block", margin: "0 auto" }}
 />
 
 **Usefulness:** ⭐⭐⭐⭐⭐ | **Difficulty Level:** ⭐⭐
@@ -92,12 +92,14 @@ A basic `Retrieval Augmented Generation` (`RAG`) algorithm can be implemented th
 4. Use the question vector to compare with the 500 context vectors, and select top N (e.g. 5) most similar ones. Then we believe those 5 are the most **relevant** to the question.
 5. We put the top 5 **relevant** text chunks in a prompt along with the question, and ask the LLM to "answer it only based on the given context, not other prior knowledge."
 
-
 <Image
     img={require("./rag-diagram.jpg")}
-    style={{ width: 400, display: "block", margin: "0 auto" }}
+    style={{ maxWidth: 400, display: "block", margin: "0 auto" }}
 />
-<p style={{ fontSize: '12px', fontStyle: 'italic', textAlign: 'center' }}>Image Source: LlamaIndex Docs</p>
+
+<p style={{ fontSize: "12px", fontStyle: "italic", textAlign: "center" }}>
+    Image Source: LlamaIndex Docs
+</p>
 
 In contrast to solely sending the question to LLMs for query, `RAG` sends both question and relevant context, which can help to reduce hallucinations and improve accuracy.
 
@@ -115,7 +117,7 @@ Interested in giving it a try? Let's dive into the coding process.
 
 <Image
     img={require("./rag.jpg")}
-    style={{ width: 500, display: "block", margin: "0 auto" }}
+    style={{ maxWidth: 500, display: "block", margin: "0 auto" }}
 />
 
 ### Prep: Data Cleaning
@@ -206,7 +208,7 @@ Now, let's build the bot!
 
 <Image
     img={require("./bot.jpg")}
-    style={{ width: 500, display: "block", margin: "0 auto" }}
+    style={{ maxWidth: 500, display: "block", margin: "0 auto" }}
 />
 
 ### Prep: QueryStar Setup
@@ -324,5 +326,5 @@ Go to Slack and post a trigger message. It works 🤩🤩🤩 **Now, you can inv
 
 <Image
     img={require("./chat-test.png")}
-    style={{ width: 500, display: "block", margin: "0 auto" }}
+    style={{ maxWidth: 500, display: "block", margin: "0 auto" }}
 />

@@ -16,7 +16,7 @@ Send a Slack message.
     -   Example: `'a12345678'`
     -   It can be found on this page:
 
-        <Image img={require("./find_channel_id.png")} style={{width: 400}} />
+        <Image img={require("./find_channel_id.png")} style={{ maxWidth: 400}} />
 
 -   `message`: body of the message, string.
     -   Required.

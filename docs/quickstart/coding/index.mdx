@@ -27,21 +27,27 @@ qs.actions.slack.add_message(channel_id='C05Q36Z6GGM',
 
 :::note
 You can find your channel id here:
-<Image img={require("./find-channel-id.png")} style={{width: 400}} />
+
+<Image img={require("./find-channel-id.png")} style={{ maxWidth: 400 }} />
 
 :::
 
 ### Step 2: Add `Querystar app` to the channel
 
 -   On the channel config page, under `Integrations` tab, click `Add apps` button.
-    <Image img={require("./add-app-to-channel.png")} style={{width: 400}} />
+
+    <Image
+        img={require("./add-app-to-channel.png")}
+        style={{ maxWidth: 400 }}
+    />
 
 -   Then find `QueryStar` in the app list, click the `Add` button.
-    <Image img={require("./add-button.png")} style={{width: 400}} />
+    <Image img={require("./add-button.png")} style={{ maxWidth: 400 }} />
 
 :::info
 Step 2 can be skipped if QueryStar has been already added to the channel of interest. You can verify it here:
-<Image img={require("./verify.png")} style={{width: 400}} />
+
+<Image img={require("./verify.png")} style={{ maxWidth: 400 }} />
 :::
 
 ### Step 3: Run the bot
@@ -54,7 +60,7 @@ $ querystar run bot.py
 
 Now switch to Slack to test. Your bot should respond to any new message now:
 
-<Image img={require("./app-running.png")} style={{width: 400}} />
+<Image img={require("./app-running.png")} style={{ maxWidth: 400 }} />
 :::
 
 And, you will see this message in the terminal:
