@@ -45,6 +45,7 @@ const sidebars = {
                 collapsed: false,
                 items: [
                     "tutorials/llamaindex-doc-bot/index",
+                    "tutorials/unstructured-data-gsheet-bot/index",
                 ],
             },
             ],
