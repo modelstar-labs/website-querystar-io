@@ -1,16 +1,21 @@
----
-image: https://querystar.io/assets/images/title-5e777fd7e08eaeb843ef15dbe803f9e7.png
----
+import Image from "@theme/IdealImage";
 
 # A Slack Bot That Extracts Topic Entities and Saves Them to a Google Sheet
 
 ## Objective
 
-Learn how to build a Slack bot that **automatically extracts key topic entities using LLM**, and use `actions.google_sheets.add_row()` to **save the entity data to a Google Sheet**.
+Learn how to build a Slack bot that automatically:
+- **extracts key topic entities** using open source large language model [llama-2-70b-hf from Meta](https://huggingface.co/meta-llama/Llama-2-70b-hf) fine tuned by [Anyscale](https://app.endpoints.anyscale.com/).
+- **saves the entity data to a Google Sheet** using QueryStar's `google_sheets.add_row()`.
 
-![alt text](./title.png)
 
-**Usefulness:** ⭐⭐⭐⭐⭐ | **Difficulty Level:** ⭐
+<Image
+    img={require("./title.png")}
+    style={{ maxWidth: 500, display: "block", margin: "0 auto" }}
+/>
+
+> 
+> **Usefulness:** ⭐⭐⭐⭐⭐ | **Difficulty Level:** ⭐
 :::note
 Source code: https://github.com/modelstar-labs/querystar-demo/tree/main/slack_gsheet_parser
 :::
@@ -70,6 +75,14 @@ We use `OpenAI` to build the LLM function, and `Querystar` for the bot. It only 
 
 ## The LLM Function
 
+### Prompt to `Llama-2-70b-chat-hf`
+
+`Llama-2-70b-hf` is developed by Meta and released to public recently. It contains 70 billion parameters. To optimize the model for chat, Anyscale made a fine-tuned version, called `Llama-2-70b-chat-hf`. You can use this chat model from Anyscale's endpoint: https://app.endpoints.anyscale.com/
+
+:::note
+The cost of using Anyscale-hosted `Llama-2-70b-chat-hf` is $1 per 1 million tokens, which is 30% cheaper than that of `GPT-3.5-turbo`, and 97% cheaper than `GPT-4` from OpenAI. The price data are referenced as is on Sept. 18, 2023.
+:::
+
 The key capability of the function is to process a user message, and extract products and their category. This system prompt works quite well for this task.
 
 > You're a technologist. Your goal is to find what technical products are discussed in the user message, and what their category is. Output a dict:
@@ -79,20 +92,28 @@ The key capability of the function is to process a user message, and extract pro
 >
 > If no product can be found, return an empty dict: {}
 
-GPT is supposed to respond with a `JSON` string, so we can parse the string with a simple parser. However, GPT sometimes adds extra characters in a response, which fails our `JSON` parser. There are many tricks you can do to enforce JSON output format, such as using [`function calling`](https://platform.openai.com/docs/guides/gpt/function-calling).
+Let's see how the prompt performs on the new Llama2 model.
 
-For the purpose of this tutorial, let's do a quick workaround when our parser fails: we record this info and save it to the Google Sheet as well.
+### Making LLM Function with Anyscale API
 
-<details><summary>Here is the full function (click to expand)</summary>
-<p>
+Anyscale provides an endpoint to run Llama-2 query, let's define the function.
+
+Fist, create a .py file called `app.py`. We need Python's `requests` libraryto call the endpoint, and necessary token and the API url.
 
 ```python
-# app.app
-import openai
-import json
+import os, requests, json
 
-openai.api_key = 'sk-***' #add your own openai api key
+s = requests.Session()
 
+ANYSCALE_TOKEN = os.getenv('ANYSCALE_TOKEN')    # add your own Anyscale token
+url = "https://api.endpoints.anyscale.com/v1/chat/completions"
+
+```
+
+For the function definition, we start off by building the prompt, then call the API endpoint to get Llama-2-70b-chat-hf's response. Llama2 is supposed to respond with a `JSON` string, so we can parse the string with a simple parser. However, Llama sometimes adds extra characters in a response, which fails our `JSON` parser. There are many tricks you can do to enforce JSON output format. But for the purpose of this tutorial, let's do a quick workaround: when the parser fails, we record the failure in `product['valid LLM answer']`and save it to the Google Sheet as well.
+
+
+```python
 def extract_product(message: str) -> dict:
     prompt = [
         {
@@ -102,7 +123,7 @@ def extract_product(message: str) -> dict:
                         "in the user message, and what their category is. "
                         "Output a dict: \n"
                         "{\"product\": [\"product1\", \"product2\"],"
-                        "  \"category\": \"cloud service\"}\n\n"
+                        "  \"category\": \"product category\"}\n\n"
                         "If no product can be found, return an empty dict: {}")
         },
         {
@@ -110,32 +131,32 @@ def extract_product(message: str) -> dict:
             "content": message
         },
     ]
+    body = {
+        "model": "meta-llama/Llama-2-70b-chat-hf",
+        "messages": prompt,
+        "temperature": 0
+        }
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=prompt,
-        temperature=0,
-        max_tokens=500)
+    with s.post(url, 
+                headers={"Authorization": f"Bearer {ANYSCALE_TOKEN}"}, 
+                json=body) as resp:
+        response = resp.json()
 
     try:
-        product = json.loads(response.choices[0].message['content'])
-        product['valid GPT answer'] = True
+        product = json.loads(response['choices'][0]['message']['content'])
+        product['valid LLM answer'] = True
     except:
-        product = {'valid GPT answer': False}
-
+        product = {'valid LLM answer': False}
+    
     return product
 ```
 
-</p>
-</details>
 
 ** Now that the LLM function is ready, let's build the bot 💪🏽🤖 **
 
 ## Trigger-Action
 
-### Create a file
-
-With QueryStar, a Slack Bot can be developed out of a short single .py file. Let's first create a file called `app.py`, and add the LLM function in it.
+### Prerequisite
 
 :::note
 If this is your first time using QueryStar, follow these steps to set it up in less than 10 mins.
@@ -156,7 +177,7 @@ Note:
 
 ### `slack.new_message()` Trigger
 
-This Slack message `trigger` can be easily done with QueryStar's `triggers.slack.new_message()` function:
+This Slack message `trigger` can be easily done with QueryStar's `triggers.slack.new_message()`. Simply add these 2 lines to `app.py`:
 
 ```python
 import querystar as qs
@@ -191,7 +212,7 @@ This script is quite self-explanatory. The bot is set to listen to new Slack mes
 
 ### `google_sheet.add_message()` Action
 
-Once a trigger event happens, the bot calls the LLM function and get extracted product entities and category. Then, the bot adds the extracted data to a Google Sheet. The code:
+Once a trigger event happens, the bot calls the LLM function and get extracted product entities and category. Then the bot adds the extracted data to a Google Sheet. The code:
 
 ```python
 product = extract_product(message['text'])
@@ -199,7 +220,7 @@ product = extract_product(message['text'])
 qs.actions.google_sheets.add_row(
     spreadsheet_id='add your spreadsheet_id here',
     worksheet_id='Sheet1',
-    data=[[message['user'], message['text'], product['valid GPT answer'],
+    data=[[message['user'], message['text'], product['valid LLM answer'],
            repr(product['product']), product['category'] ]]
     )
 
@@ -239,6 +260,7 @@ $ querystar run app.py
 
 Now, go to Slack and send the example message as shown in the section of [The Use Case and Idea](#the-use-case-and-idea). In 1-2 seconds, a new row is added to the Google Sheet as shown below.
 
-:::info
-![alt text](./result.png)
-:::
+<Image
+    img={require("./result.png")}
+    style={{ maxWidth: 600, display: "block", margin: "0 auto" }}
+/>
