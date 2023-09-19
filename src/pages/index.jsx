@@ -10,8 +10,8 @@ export default function knowledge() {
     const { siteConfig } = useDocusaurusContext();
     return (
         <Layout
-            // title={`${siteConfig.title}`}
-            // description="Workflow Automation in a Few Lines of Python"
+        // title={`${siteConfig.title}`}
+        // description="Workflow Automation in a Few Lines of Python"
         >
             <main
                 className="bg-slate-50"
@@ -39,6 +39,10 @@ export default function knowledge() {
                             >
                                 Get Started Now
                             </Link>
+                            <h1 className="text-xs text-slate-50">
+                                Retrieval Augmented Generation (RAG) Enhanced
+                                Workflow Automations
+                            </h1>
                         </div>
                         <div className="mt-5 md:mt-0 place-self-center">
                             {/* <Image
@@ -82,9 +86,9 @@ export default function knowledge() {
                                     </span>
                                 </h3>
                                 <p className="mt-10">
-                                    Use your favorite code editor,  Python packages, 
-                                    large language models, data APIs, CI/CD. No limit 
-                                    on what you can build.
+                                    Use your favorite code editor, Python
+                                    packages, large language models, data APIs,
+                                    CI/CD. No limit on what you can build.
                                 </p>
                             </div>
                             <div className="md:order-3 mt-5 md:mt-0 place-self-center">
@@ -103,9 +107,9 @@ export default function knowledge() {
                                     </span>
                                 </h3>
                                 <p className="mt-10">
-                                    Enjoy automation, as much as enjoy humanity. 
-                                    The more we let SaaS tools and AI do, 
-                                    the more we can achieve, as humans.
+                                    Enjoy automation, as much as enjoy humanity.
+                                    The more we let SaaS tools and AI do, the
+                                    more we can achieve, as humans.
                                 </p>
                                 <Link
                                     className="inline-block mt-4 mx-auto text-sm bg-sky-400 hover:bg-sky-500 rounded 
@@ -143,6 +147,16 @@ export default function knowledge() {
                             </div>
                         </div>
                         <div>
+                            <Link
+                                className="no-underline hover:no-underline"
+                                to="rag"
+                            >
+                                <h1 className="font-light text-sm text-white">
+                                    Retrieval Augmented Generation (RAG)
+                                    Enhanced Workflow Automations
+                                </h1>
+                            </Link>
+
                             <h1 className="font-light">
                                 QueryStar 🌟 + LlamaIndex 🦙: Slack Bot that
                                 Understands Your Data
@@ -154,8 +168,7 @@ export default function knowledge() {
                                     code
                                 </li>
                                 <li>
-                                    The bot can answer questions about
-                                    the docs
+                                    The bot can answer questions about the docs
                                 </li>
                             </ul>
                         </div>
