@@ -42,7 +42,14 @@ const config = {
                     sidebarPath: require.resolve("./sidebars.js"),
                     showLastUpdateTime: true,
                 },
-                blog: false,
+                blog: {
+                    path: "blog",
+                    routeBasePath: "blog",
+                    blogSidebarCount: 0,
+                    blogListComponent: require.resolve(
+                        "./src/components/BlogListPage.jsx"
+                    ),
+                },
                 theme: {
                     customCss: require.resolve("./src/css/custom.css"),
                 },
@@ -157,6 +164,11 @@ const config = {
                         sidebarId: "docs",
                         position: "right",
                         label: "Documentation",
+                    },
+                    {
+                        to: "/blog",
+                        position: "right",
+                        label: "Blog",
                     },
                     {
                         href: "https://github.com/modelstar-labs/querystar",
