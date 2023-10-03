@@ -26,7 +26,7 @@ Social media is another data source. QueryStar provides one-liner social media t
 In this tutorial, we will track Reddit discussions about `SpaceX`, and analyze sentiment about the brand. 
 
 ### Spoiler Alert:
-We tracked `SpaceX` mentions on Reddit for 2 days, and found negative posts are 5 times as many as positive ones. The result is interesting, but we cannot draw any meaningful conclusion yet: 
+We tracked `SpaceX` mentions on Reddit for 2 days, and found negative posts are 2 times as many as positive ones. The result is interesting, but we cannot draw any meaningful conclusion yet: 
 - First off, our sample size, totally 374 posts and comments, is too small. 
 - Secondly, LLM cannot 100% correctly classify "brand sentiment", which is largely different than "sentiment" (we will discuss it later). 
 - Last but not least, we have to be careful about "vocal minority effect". Sometimes, a small, outspoken subset of users dominates the conversation or garners a significant amount of attention, making it seem as if their views or sentiments represent the majority.
