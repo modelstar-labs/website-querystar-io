@@ -40,6 +40,12 @@ Nonetheless, the social media data collection and analysis, as shown in this tut
 
 ### Prerequisite
 
+Note that social tracking is a new feature (released on v0.3.14). Make sure to update your package:
+
+```bash
+$ pip install -U querystar
+```
+
 :::note
 If this is your first time using QueryStar, follow these steps to set it up in less than 10 mins.
 
@@ -67,7 +73,30 @@ QueryStar provides triggers for the following platform:
 - Hackernews
 - Stackexchange (Stackoverflow is also included as a channel)
 
-For easy-of-use, they all have similar API designs and response data structures. In our case, we can set up a Reddit trigger as follows: 
+For easy-of-use, they all have similar API designs and response data structures. 
+
+### Integrating Social Platforms
+
+In this tutorial, we will be tracking Reddit. Go to [QueryStar console](https://app.querystar.io/console), click Reddit to add it as an integration. 
+
+<Image
+    img={require("./add_integration.png")}
+    style={{ maxWidth: 300, display: "block", margin: "0 auto" }}
+/>
+
+Next, go to your console and confirm the integration:
+
+<Image
+    img={require("./workspace.png")}
+    style={{ maxWidth: 400, display: "block", margin: "0 auto" }}
+/>
+
+:::info
+Social media tracking is a paid feature on QueryStar. If you're interested to activate it, send us an email at support@querystar.io.
+:::
+
+### Setting Up Triggers in Python 
+Now, we can easily set up a Reddit trigger and define the keywords we're interested in tracking:
 
 ```python
 import querystar as qs
@@ -75,7 +104,7 @@ import querystar as qs
 post = qs.triggers.reddit.new_message("spacex")
 ```
 
-This means, every time, a new comment that contains "spacex" is posted on Reddit, the function will return data, like:
+This means, every time a new comment that contains "spacex" is posted on Reddit, the data will be returned, e.g.:
 
 ```json
 {
@@ -89,6 +118,11 @@ This means, every time, a new comment that contains "spacex" is posted on Reddit
     "user": "username"
 }
 ```
+Here is an example of the console log of a trigger event.
+<Image
+    img={require("./trigger_data.png")}
+    style={{ maxWidth: 600, display: "block", margin: "0 auto" }}
+/>
 
 ## Sentiment Analysis Function
 
@@ -258,4 +292,5 @@ Open your terminal and run this command in the folder that contains your `app.py
 $ querystar run app.py
 ```
 
-Here you can see an example of the two days of Reddit data: https://docs.google.com/spreadsheets/d/1ekaZiRV66ghPj6u7BOAAXZZLyv3PYwhp-3C36k4e-1w/edit?usp=sharing
+We have sampled two days of Reddit data and saved it to this Spreadsheet: https://docs.google.com/spreadsheets/d/1ekaZiRV66ghPj6u7BOAAXZZLyv3PYwhp-3C36k4e-1w/edit?usp=sharing
+
