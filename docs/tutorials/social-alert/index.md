@@ -199,7 +199,7 @@ It's convenient to send a real-time alert in a Slack channel so marketing teams 
 sentiment = analyze_sentiment(post['text'])
 qs.actions.slack.add_message(
     channel_id="...", # add your channel id
-    message=f"{sentiment} post alert: {post['permalink']}")
+    text=f"{sentiment} post alert: {post['permalink']}")
 ```
 
 ### Save Results in a Google Spreadsheet
@@ -277,7 +277,7 @@ date_str = today.strftime("%Y-%m-%d")
 
 qs.actions.slack.add_message(
     channel_id="...", # add your channel id
-    message=f"{sentiment} post alert: {post['permalink']}")
+    text=f"{sentiment} post alert: {post['permalink']}")
 
 qs.actions.google_sheets.add_row(
     spreadsheet_id='...', # add your spreadsheet id here
