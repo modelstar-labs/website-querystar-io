@@ -61,7 +61,7 @@ message = qs.triggers.slack.new_message(channel_id, trigger_string)
 response = ...
 
 # then, sends answer back to Slack
-qs.actions.slack.add_message(channel_id, message=response)
+qs.actions.slack.add_message(channel_id, text=response)
 ```
 
 🤩 That's it! Clean code scales your bots and creativity.

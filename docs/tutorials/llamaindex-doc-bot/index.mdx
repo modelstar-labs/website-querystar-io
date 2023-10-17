@@ -307,7 +307,7 @@ Let's do it:
 question = data.get('text', None)
 answer = ask_llamaindex(question)
 # send answer to Slack
-qs.actions.slack.add_message(channel_id='C05PRRJ0H4N', message=f'Llama says: {answer}')
+qs.actions.slack.add_message(channel_id='C05PRRJ0H4N', text=f'Llama says: {answer}')
 ```
 
 We first parse the trigger message to get `question`, which will be passed to `ask_llamaindex()` to generate an answer. Then, we use `actions.slack.add_message()` to post the answer back to the same channel.

@@ -238,7 +238,7 @@ from querystar import qs
 
 # send answer to Slack
 qs.actions.slack.add_message(channel_id='C05PRRJ0H4N',
-                              message=f'Answer is: {answer}')
+                              text=f'Answer is: {answer}')
 ```
 
 Let's put all of these pieces together into a complete workflow in app.py :
@@ -271,7 +271,7 @@ answer = ask_llamaindex(question)
 
 # Send answer to back to Slack channel
 qs.actions.slack.add_message(channel_id='C05PRRJ0H4N',
-                              message=f'Answer is: {answer}')
+                              text=f'Answer is: {answer}')
 ```
 
 ### Step 3: Running the app.py

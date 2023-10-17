@@ -18,7 +18,7 @@ Send a Slack message.
 
         <Image img={require("./find_channel_id.png")} style={{ maxWidth: 400}} />
 
--   `message`: body of the message, string.
+-   `text`: body of the message, string.
     -   Required.
 -   `thread_ts`: a timestamp string.
     -   Optional. Default: `''` (not a reply in a thread)
